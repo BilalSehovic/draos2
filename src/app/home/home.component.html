@@ -1,0 +1,130 @@
+<mat-card>
+    <mat-card-header>
+        <!-- <mat-card-title>
+            <h2>Iznajmljivanje vozila / RENT A CAR</h2>
+        </mat-card-title> -->
+    </mat-card-header>
+    <mat-card-content>
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [(expanded)]="expanded">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Pretraga</mat-panel-title>
+                    <mat-panel-description>Unesite podatke pretrage</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <dx-form #myForm [colCount]="3" [formData]="searchForm" labelLocation="top" (onInitialized)="onInitialized($event)">
+
+                    <dxi-item [colSpan]="1" dataField="proizvodacVozila" editorType="dxSelectBox" [editorOptions]="{ items: carMakers, value: '', showClearButton: true, searchEnabled: true }">
+                        <dxo-label text="Proizvođač vozila"></dxo-label>
+                    </dxi-item>
+
+                    <dxi-item dataField="modelVozila">
+                        <dxo-label text="Model vozila"></dxo-label>
+                        <dxi-validation-rule type="stringLength" [max]="15" message="Max dužina je 15 karaktera"></dxi-validation-rule>
+                    </dxi-item>
+
+                    <dxi-item itemType="group" [colSpan]="1" caption="Datum iznajmljivanja" [colCount]="2">
+                        <dxi-item dataField="rentOd" editorType="dxDateBox" [editorOptions]="{ value: null, width: '100%',placeholder:'dd.MM.yyyy',displayFormat:'dd.MM.yyyy', useMaskBehavior: true, showClearButton: true }">
+                            <dxo-label text="Od"></dxo-label>
+                        </dxi-item>
+                        <dxi-item dataField="rentDo" editorType="dxDateBox" [editorOptions]="{ value: null, width: '100%',placeholder:'dd.MM.yyyy',displayFormat:'dd.MM.yyyy', useMaskBehavior: true, showClearButton: true }">
+                            <dxo-label text="Do"></dxo-label>
+                        </dxi-item>
+                    </dxi-item>
+
+                    <dxi-item itemType="group" [colSpan]="2" caption="Tip vozila" [colCount]="7">
+                        <dxi-item dataField="Limuzina" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="MaloAuto" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Karavan" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Kombi" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Terenac" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Kabriolet" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Oldtimer" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                    </dxi-item>
+
+                    <dxi-item itemType="group" [colSpan]="1" caption="Gorivo" [colCount]="5">
+                        <dxi-item dataField="Dizel" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Benzin" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Plin" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Elektro" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                        <dxi-item dataField="Hibrid" editorType="dxCheckBox" [editorOptions]="{ value: false }"></dxi-item>
+                    </dxi-item>
+                </dx-form>
+                <br />
+                <div style="float: right;">
+                    <button mat-raised-button type="submit" color="primary" matTooltipPosition="above" matTooltip="Klikni za filtriranje" (click)="apply()" [disabled]="formInit && !myForm?.instance?.validate()?.isValid" class="mr-1">
+                        <mat-icon>search</mat-icon>
+                        <span>Primijeni</span>
+                    </button>
+                    <button mat-icon-button type="reset" color="primary" matTooltipPosition="above" matTooltip="Očisti" (click)="clear()">
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+        <!-- <mat-divider style="margin-top: 10px; margin-bottom: 10px;"></mat-divider> -->
+        <div style="padding: 20px;">
+            <mat-radio-group [(ngModel)]="viewMode">
+                <mat-radio-button color="primary" [value]="'grid'">Tabela</mat-radio-button>
+                &nbsp; &nbsp;
+                <mat-radio-button color="primary" [value]="'tiles'">Pločice</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <dx-data-grid *ngIf="viewMode=='grid'" #grid id="gridContainer" [dataSource]="carsDS"
+            [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+            (onRowInserted)="onRowInserted($event)">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-header-filter [visible]="false"></dxo-header-filter>
+            <dxo-search-panel [visible]="true" [width]="180" placeholder="Pretraga..."></dxo-search-panel>
+            <dxo-paging [pageSize]="5"></dxo-paging>
+            <dxo-pager [visible]="true" [showPageSizeSelector]="true" [showNavigationButtons]="true" [allowedPageSizes]="[5, 10, 15,20]" [showInfo]="true"></dxo-pager>
+            <dxo-load-panel [enabled]="false"></dxo-load-panel>
+            <dxo-editing mode="popup" [allowAdding]="allowAdding"></dxo-editing>
+
+            <dxi-column caption="Otvori" cellTemplate="openTemplate" [width]="55" [formItem]="{visible: false}" [allowSorting]="false" [allowGrouping]="false" [allowFiltering]="false"></dxi-column>
+            <dxi-column dataField="proizvodacVozila" dataType="string"></dxi-column>
+            <dxi-column dataField="modelVozila" dataType="string"></dxi-column>
+            <dxi-column dataField="rentOd" dataType="date" format="dd.MM.yyyy" [width]="140"></dxi-column>
+            <dxi-column dataField="rentDo" dataType="date" format="dd.MM.yyyy" [width]="140"></dxi-column>
+            <dxi-column dataField="Rezervisan" caption="Dostupan" cellTemplate="rezervisanTemplate" [width]="75" [allowSorting]="false" [allowGrouping]="false" [allowFiltering]="false"></dxi-column>
+            <dxi-column dataField="RentKuca" dataType="string"></dxi-column>
+
+            <dxi-column dataField="Dizel" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Benzin" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Plin" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Elektro" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Hibrid" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Limuzina" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="MaloAuto" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Karavan" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Kombi" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Terenac" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Kabriolet" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+            <dxi-column dataField="Oldtimer" [visible]="false" [formItem]="{editorType: 'dxCheckBox'}"></dxi-column>
+
+            <div *dxTemplate="let item of 'openTemplate'">
+                <a matTooltipPosition="above" matTooltip="Detalji" (click)="details(item)">
+                    <mat-icon>search</mat-icon>
+                </a>
+            </div>
+            <div *dxTemplate="let item of 'rezervisanTemplate'">
+                <span *ngIf="!item.data.Rezervisan" class="dotgreen"></span>
+                <span *ngIf="item.data.Rezervisan" class="dotred"></span>
+            </div>
+        </dx-data-grid>
+        <dx-tile-view *ngIf="viewMode=='tiles'" [baseItemHeight]="120" [baseItemWidth]="185" [itemMargin]="10" [direction]="'vertical'">
+            <div *ngFor="let car of tileViewItems">
+                <dxi-item *ngFor="let attachment of car.slike" (click)="details({data: car})">
+                    <img src="{{attachment}}" alt="Nema slike" class="image">
+                    <a class="imagetext">{{ car.proizvodacVozila }}</a>
+                </dxi-item>
+                <dxi-item *ngIf="!car.slike || (car.slike && car.slike.length == 0)" (click)="details({data: car})">
+                    <span>Nema slike</span>
+                    <a class="imagetext">{{ car.proizvodacVozila }}</a>
+                </dxi-item>
+            </div>
+        </dx-tile-view>
+
+    </mat-card-content>
+</mat-card>

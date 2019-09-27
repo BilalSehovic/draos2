@@ -1,0 +1,41 @@
+<!-- signup ovdje
+
+<button (click)="fullLogin()">login!</button> -->
+<mat-card>
+    <mat-card-content fxLayoutAlign="center center">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" fxLayout="column">
+            <div fxFlex>
+                <h3>Prijavi se</h3>
+                <!-- <p style="margin-top: -8px;">{{'FILL_FORM_TO_CREATE_ACCOUNT' | translate}}</p>
+                <hr style="margin-top: 15px; margin-bottom: 25px"> -->
+            </div>
+            <mat-form-field fxFlex>
+                <input matInput type="text" placeholder="Korisničko ime" formControlName="username">
+                <mat-error *ngIf="loginForm.controls['username'].errors?.required">Obavezno polje</mat-error>
+                <mat-error *ngIf="loginForm.controls['username'].errors?.maxlength">Maksimalna dužina je 25 karaktera</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <input matInput [type]="passwordVisible? 'text' : 'password'" placeholder="Lozinka" formControlName="password">
+                <button type="button" color="primary" matSuffix mat-icon-button aria-label="Visible" tabindex="-1" (click)="passwordVisible = !passwordVisible">
+                    <mat-icon *ngIf="passwordVisible">visibility</mat-icon>
+                    <mat-icon *ngIf="!passwordVisible">visibility_off</mat-icon>
+                </button>
+
+                <mat-error *ngIf="loginForm.controls['password'].errors?.required">Obavezno polje</mat-error>
+                <mat-error *ngIf="loginForm.controls['password'].errors?.minlength">Minimalna dužina je 8 karaktera</mat-error>
+                <mat-error *ngIf="loginForm.controls['password'].errors?.maxlength">Maksimalna dužina je 20 karaktera</mat-error>
+            </mat-form-field>
+            
+            <div fxFlex>
+                <hr style="margin-top: 15px; margin-bottom: 25px">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex class="submitButton">
+                        <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">Prijava
+                            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

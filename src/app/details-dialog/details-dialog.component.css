@@ -1,0 +1,37 @@
+.dialogtitle {
+	margin-top: -10px;
+	margin-left: -10px;
+}
+
+.dialogactions {
+	margin-right: -15px;
+	margin-top: 4px;
+}
+
+.closebutton {
+	float: right;
+	margin-top: -5px;
+	margin-right: -20px;
+}
+
+.imgScale {
+    width: 30vw;
+    height: auto;
+}
+
+hr {
+	border: 0.5px solid gray;
+	margin: 0px;
+}
+
+.title-row {
+    overflow-wrap: break-word;
+    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+    background-color: rgb(242,242,242);
+    padding: 3px 0px 3px 3px;
+}
+
+.details-row {
+    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+    padding: 3px 0px 3px 3px;
+}

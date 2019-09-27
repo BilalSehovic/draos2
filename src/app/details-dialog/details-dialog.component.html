@@ -1,0 +1,115 @@
+<h2 mat-dialog-title class="dialogtitle">
+    {{ title }}
+    <button style="float: right;" mat-icon-button type="button" matTooltip="Zatvori" matTooltipPosition="above"
+        mat-dialog-close class="closebutton">
+        <mat-icon>close</mat-icon>
+    </button>
+</h2>
+<mat-dialog-content cdkFocusInitial>
+    <hr />
+    <div fxLayout="row">
+        <div fxFlex="30" class="title-row">
+            <b>Proizvođač vozila: </b>
+        </div>
+        <div fxFlex class="details-row">{{data?.proizvodacVozila}}</div>
+    </div>
+    <hr />
+    <div fxLayout="row">
+        <div fxFlex="30" class="title-row">
+            <b>Model vozila: </b>
+        </div>
+        <div fxFlex class="details-row">{{data?.modelVozila}}</div>
+    </div>
+    <hr />
+    <div fxLayout="row">
+        <div fxFlex="30" class="title-row">
+            <b>Rent od: </b></div>
+        <div fxFlex class="details-row">{{data?.rentOd | date: 'dd.MM.yyyy'}}</div>
+    </div>
+    <hr />
+    <div fxLayout="row">
+        <div fxFlex="30" class="title-row">
+            <b>Rent do: </b></div>
+        <div fxFlex class="details-row">{{data?.rentDo | date: 'dd.MM.yyyy'}}</div>
+    </div>
+    <hr *ngIf="data.Dizel" /><div fxLayout="row" *ngIf="data.Dizel"><div fxFlex="30" class="title-row"><b>Dizel: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Benzin" /><div fxLayout="row" *ngIf="data.Benzin"><div fxFlex="30" class="title-row"><b>Benzin: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Plin" /><div fxLayout="row" *ngIf="data.Plin"><div fxFlex="30" class="title-row"><b>Plin: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Elektro" /><div fxLayout="row" *ngIf="data.Elektro"><div fxFlex="30" class="title-row"><b>Elektro: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Hibrid" /><div fxLayout="row" *ngIf="data.Hibrid"><div fxFlex="30" class="title-row"><b>Hibrid: </b></div><div fxFlex class="details-row">DA</div></div>
+    
+    <hr *ngIf="data.Limuzina" /><div fxLayout="row" *ngIf="data.Limuzina"><div fxFlex="30" class="title-row"><b>Limuzina: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.MaloAuto" /><div fxLayout="row" *ngIf="data.MaloAuto"><div fxFlex="30" class="title-row"><b>MaloAuto: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Karavan" /><div fxLayout="row" *ngIf="data.Karavan"><div fxFlex="30" class="title-row"><b>Karavan: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Kombi" /><div fxLayout="row" *ngIf="data.Kombi"><div fxFlex="30" class="title-row"><b>Kombi: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Terenac" /><div fxLayout="row" *ngIf="data.Terenac"><div fxFlex="30" class="title-row"><b>Terenac: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Kabriolet" /><div fxLayout="row" *ngIf="data.Kabriolet"><div fxFlex="30" class="title-row"><b>Kabriolet: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Oldtimer" /><div fxLayout="row" *ngIf="data.Oldtimer"><div fxFlex="30" class="title-row"><b>Oldtimer: </b></div><div fxFlex class="details-row">DA</div></div>
+    <hr *ngIf="data.Rezervisan" /><div fxLayout="row" *ngIf="data.Rezervisan"><div fxFlex="30" class="title-row"><h2>Rezervisan: </h2></div><h2 fxFlex class="details-row">DA</h2></div>
+
+    <hr *ngIf="data.slike" /><div fxLayout="row" *ngIf="data.slike"><div fxFlex="30" class="title-row"><b>Slike: </b></div><div fxFlex class="details-row"> </div></div>
+    <div>
+        <div *ngFor="let attachment of data.slike">
+            <img src="{{attachment}}" (load)="imgLoad($event)" [ngClass]="{'imgScale': clicked}" (click)="clicked = !clicked" /> <br />
+        </div>
+    </div>
+
+    <div *ngIf="reserveShow" id="resDiv">
+        <br />
+        <br />
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true" style="margin-bottom: 20px;">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Kartično plaćanje</mat-panel-title>
+                    <mat-panel-description>Unesite podatke</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <dx-form #myForm [colCount]="3" [formData]="karticaForm" labelLocation="top" (onInitialized)="formInit=true">
+                    <dxi-item [colSpan]="1" dataField="tipKartice" editorType="dxSelectBox" [editorOptions]="{ items: ['VISA', 'MASTERCARD'], showClearButton: true, searchEnabled: true }">
+                        <dxi-validation-rule type="required" message="Obavezno polje"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item [template]="'cardPicTemplate'" [colSpan]="1"></dxi-item>
+                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item dataField="brojKartice">
+                        <dxi-validation-rule type="stringLength" [min]="10" message="Minimalna dužina je 10 karaktera"></dxi-validation-rule>
+                        <dxi-validation-rule type="stringLength" [max]="20" message="Maksimalna dužina je 20 karaktera"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="istice" editorType="dxDateBox" [editorOptions]="{ value: null, width: '100%',placeholder:'dd.MM.yyyy',displayFormat:'dd.MM.yyyy', useMaskBehavior: true, showClearButton: true }">
+                        <dxi-validation-rule type="required" message="Obavezno polje"></dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item itemType="group" [colSpan]="1" [colCount]="3">
+                        <dxi-item dataField="cscKod">
+                            <dxi-validation-rule type="stringLength" [min]="3" message="Minimalna dužina je 3 karaktera"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [max]="3" message="Maksimalna dužina je 3 karaktera"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                    </dxi-item>
+                    <dxi-item dataField="adresa"></dxi-item>
+                    <dxi-item dataField="grad"></dxi-item>
+
+                    <div *dxTemplate="let data of 'cardPicTemplate'">
+                        <br />
+                        <img *ngIf="karticaForm?.tipKartice=='VISA'" style="height: 35px; width: auto;" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxEQEBAPEBARDw8SEBAVEhYSFhIQFRYXGBUWGBUSFRYYHSggGB0lHRUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGRAQGy0lHyUtLS0tLS0vLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tK//AABEIAOEA4QMBIgACEQEDEQH/xAAcAAEAAwEBAQEBAAAAAAAAAAAAAQcIBgUDBAL/xABCEAACAgECAQgGBggFBQEAAAAAAQIDBAURIQYHEjFRcYGRExQiQWGhI1JUgrHRCBUXMmJykpMkQlNzojRDstLwM//EABkBAQEBAQEBAAAAAAAAAAAAAAADBAIBBf/EACARAQADAQADAAIDAAAAAAAAAAABAhEDEiExBCITQVH/2gAMAwEAAhEDEQA/AKjAB9JiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkCAAAAJQEAkgAAAABOwEAEgQCSAAJZG67QJBG6JAgkACASQABKIAAAAAAB6Gh51VF8LbseGXXHpdKubcYy3TSba966/A88CXq2tG5S8mrWlkaasVvh0pRlZDvcovh5HfaXyT0LKh6XGxsS+v61b6aT7Hs+D+DMzn7tF1e/DujfjWSqsi1v0W0pJPfoSXVJd5C3L/JUjpH9w0sub3SfsFHlL8zxuVPNTgX0yWNUsXIUW65VuWzf1ZJvZr8zseT+pRysWjJj1XVQn5rdnoGbytErZEsbW1OEpQktpRk4yXY09mvNH8HSc4uD6DVc6vbZencor4TSmvlI5w3xOxrLMZL3OROhvPz8bG2bhKfSt/24cZb9+3R+8aI/Z7pX2Cjyl+Zw/MDoe1d+oSXGcvRVP8Ahj++147LwZb5k7XmbemjnX04nXuSOjYeNflWYFHQprlNraXFpcIrj1t7Jd5QXJXA9c1HEolBdG7Jh04rqUN3OyK+CipeRa/P5yg6NNOnxftWv0lqX1I/up97/A5PmL0/0uqema4Y+PZJPslPauK/plZ5HdNik2lxbJti4f2e6T9go8pfmeRys5IaViYOXkrBoUqqJyjwl+8k+j7+075Fc8++oei0v0S68jIpr8I72t930aX3iNZmZhWYiIZ5S4Hb8hObjJ1P6ab9XxN9lZJe1Pt9FF9a/i6t+HHZ7fj5teTS1HPhVNN0Vr0l3xjF8I+MmkadppjCMYQSjGKSilwSS6kkaOvXx9QjSm+5cjonNjpmMl/h1kTW287t7G/Dq2+Gx0lWi4sFtHGoiuxVVr8EffNzK6K5W3TjVXBbylNqMUu1tnEZPPBpMJOKsut298Kp7eHS2b8jN+1lv1h1eVydwrVtZiY018aq9/Pbcqvnc5FadhYbysel03O2EIxhJ9B9JvfeLO107nR0i9qKy40yf+vGdK/qkuj8zh+f/Vozjg0VzjOMvSXbwakmklGPFdu/yO+cW8oiXNsxTxBJ6PJ3SpZmXj4kOu62MX8I9c5eEVJ+Bsmc9s0RsrS5rebXHvx4ZudD0qt41VNtRUfdOSXW31lg/s80n7BR5S/M6HExo1VwqgtoQjGMV8Etkfcw2vMy1xWIhw/KHm6014mQqcOmu30NnQkk94y6L2a49ZmpPtNlzimmnxT4MyRynwXj5uXQ/wDt5Fq8Ok2l5NFuFvqXWMeWADSiAAAAAJBBIGhuYvVPTaZ6Fv2sa6dfHr6MtpwfdtJr7pYpQnMBqXo83Ixm+F9Ckl/FVL/1nLyL7Rh6xlpaqTsM98/WD6PVIW7ezfi1vftlCUoy/wCPo/MruimVk4Vwj0rJyjGC7ZSe0V4tl1/pDYO9GFkrrhbZW+6yKlv51JeJyXMnoXrOo+nkt6sWPT+/LhBfOT8i9LZz1K1duvbkxo8cLDx8SHFVVRi31dKXXOfjJt+J6Vkkk22kkt23wSS62z+jg+ePX/VNOnXGW1uT9FHt6LX0kvL8TLEeVl59Qorlnrz1DOvy+PQnNqpPrVUeFfdv198mWr+j5p3Roy8lrjZbCtPtjBb/AIykUh8jTnNRp/oNJxItbOyLskvjNt/kae3qmIc/dtdeUh+kLn73YWMv8ldlj75NRW/hF+Zd5mXnc1D0+r5Oz4VdCpfdim2vNkuMbZTpP6ux/R2rXT1KX+ZLDXh/iPxa+RdJmfmq5UR07O3te2PfFV2v6vFOE33NtfeZpWqxSSlFqUWk01xTT6mh2ifLTnOw4Xnk0LJzcCMcZObquVk611zioyWyXvabT2+BnKcHFuMk4yT2afBr4Ne42Vsctys5BYOopu2v0dz6ratozXf7pdzPeXXx9S8vTWXRv7vcuo6vlryBy9LfSmldjN7Qugnt8FOPXB+a+JyhqiYt7hCYmEFw8wXJ/ed2ozjwinTT47OyS8lHzKhqrc5RhFdKUpRjFdrbSSXeax5JaLHBwsfFW29da6b7ZvjN+bZLtbIxTlGzr2DwtG5RwyczOxI7b4joT+PTjLfycWfu1zUoYuNfk2PaFNU5vwXUu1t8Cj+ZTWJS1i52P2sum5y/nU1YvBLppGetNrMrTbJiF/szfz14PodXtltsrqabV5OEvHet+Zo8pr9IbT/+hykvfdTLxSnD/wAbPM64zl3PSNqpkEkG1mAAAAAAACR7/ILU/VdSw7t9oq6MZfyz9lr5mrUY0Ta4p7NdT7H7ma05JamsrBxMj/Uorb+EtvaXg9zL+RHyV+U/Xgc8eD6bSMl++roW+EJJv5bnx5mtC9U0yuycdrcpu6W/WovhVF/d2ffJnZangwyKbKLFvXbBwmu1PrPvXWopRitlFJL4JdSI+X64r4+9f2zN3PHyh9c1KdUHvTi71R7HNP6WX9Xs/c+JevLTXFgYORk7rpRg1Xv75vhFef4GUZybblJ7yk25N9bb4tvxZXhX3qXW3rH9UVOco1x4ynKMV3yaS+bRsDT8ZU1VUrqrrhBfdSW/yMw82unesatg1/5Y3K2XdV9IvOUYrxNTI9/In3EPeUenzvsUYyk+qMW+PwW5kDUsx33XXv8A7ttk+PZKTaXk0ab5zdR9W0nOtT2k6XXHt6VrVcWu5z38DLm3Ye/jx9lz2n5CDuuQ/OZk6clTYnlYnug5bTh/tyf4Ph3HDSi02mmmutPg13oF7Vi0ZKUTMNVcluWeFqUd8e5dPb2qp+xZHvi+vvW6OhMcY1865xsrlKucXvGUW4tPtTRqLm41a7M0zFychfTWQn0nt0el0ZyhGzb+JQUvHhw2MnXn4tFL+T3s7EhdXOq2CsrnFxlGXFNNbNGVuWugPTs6/F3bhFqVUn1uuXGG/wAVxi/jFmsNzPXPzOP60jttusOrpf12P/7vOuEzuPOsenw5l+T/AK1qMb5renESsfxsfCteHGX3UaMOI5o9A9T02pyjtdkfTWdvtL2I+Wx25x1t5WdUrkKs5+9a9Hh04cX7WRYpT2/06+O3jPof0sqTkJn+r6lhXN7JXwjLul7LXzNL6tyYwsuank4tN81Hop2RU2lvvst+o/FHkHpcWpR0/GUk001XFNNdTR1XpEVx5NJmddIjheenT/TaTdJL2qZ12r4KL2l/xcjuYrY/ByhwlkYmRQ1urKbI7d8XsSrOS7n3DIhBMoOLcZfvJtPvXBkH0WMAAAAAAABJf3MJqfpdPsx2/axsiSX8lm00/wCr0nkUAWRzGaxHHzrqrJxhXfR1yajHpVvpLi/hKXmS6xtVOc5LQgZ+H9dYv2nH/u1/mfLK5QYtdc7Hk0NQjKTSsrbey32XHrMWNOqi5/OUHTtp0+D4VpW3bfWl/wDnF+G78YlSH7db1OeXk35Vj3ldbKfcm/Yj4RUV3JH4TfSuVxkvO2Wn+j/p3TzcnJa4VUKC7N7JbvxSh8y+SqeYudFGDbZZfTCd18ntKcIySilFcGyyf1zi/aaP7tf5mTrO2aKfFc/pA5/QwcfH992SpP8Alri3+Mo+RTnJTA9YzsSj6+RWn3bpv8DtufbV4X5tFVdkZwqo3bg1KO85b9a+COc5tdUx8TUqcjKk41QjZs0nLaTi4x3293tPyRekTFPSVp27Qmv8jMDOX+JxoTklspx3rsS7FOLT2+HUcblcyGBJ715GXWuxuqxLu3gn5tnd6bymwshJ05VFm/uU4p+Te56qknxXFfAzeVoWysq30rmY06qanbO/K2e/RslCEH3xhFN+ZYtFUYRjCMVCEUlFLgkl1JIm22MVvKSil1uTSXmzmNf5wtNw0+nkxtmuqFP0sn/TwG2sequizsyumud1slCqEXKcn1JLrM44Vctf1zecX6K27pzX1cerZdDvcVGL+M2z+eXnOHkam/Rper4ilvGuL3c2uqVkl193UvidtzF4ePRTdmW3UwtuahBSnCMlCPwb4bt/ItFfCszP1xNvKcXDFbLZcEuo/Hq+q04lUsjIsjVVBxUpS6l0mkl5tELWMX7TR/cr/MqXn45RQshjYdNkbIuTts6ElJcOEE+i+vdtka18px3ach3f7StJ+3VfP8if2laT9tq+f5GYAjR/BVH+aWu9D1vHza3di2xurUnFyj1dJJNr5rzPQZSvMBrVdcM7GuthXHpU2w6cox3ck4WcX8IV+Zbn64xftNH92v8AMz3r4zi1Z2GXOWuD6vqObT1KGRZt3SfSXyaPEO+566a/1o7qpwsjfj1SbhKM1049KDXB/VhB+JwRupO1hmtGSgAHTkAAAAACSAA2Gy7AAJIAEgxsuwAYCJIAwSu33n1hlWR/dssj3SkvwZ8QeY919bMicv3pzl/NKUvxPkgBhqdyNgA8Nl2EkA9EgEAGNl2AACSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH/9k=" />
+                        <img *ngIf="karticaForm?.tipKartice=='MASTERCARD'" style="height: 35px; width: auto;" src="data:image/jpeg;base64,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" />
+                    </div>
+                </dx-form>
+                <br />
+                <div style="float: right;">
+                    <button mat-raised-button type="submit" color="primary" matTooltipPosition="above" matTooltip="Klikni za filtriranje" (click)="sacuvaj()" [disabled]="myForm && !myForm?.instance?.validate()?.isValid" class="mr-1">
+                        <span>Sačuvaj</span>
+                    </button>
+                    <button mat-icon-button type="reset" color="primary" matTooltipPosition="above" matTooltip="Očisti" (click)="clear()">
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+
+
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="dialogactions">
+    <button mat-raised-button type="button" color="primary" (click)="reserve()" [disabled]="data?.rentDo < danas || data?.Rezervisan"><mat-icon>done_outline</mat-icon>  Rezerviši</button>
+    <button mat-button color="primary" mat-dialog-close>Otkaži</button>
+</mat-dialog-actions>
