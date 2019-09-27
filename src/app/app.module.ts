@@ -11,6 +11,7 @@ import { DetailsDialogComponent } from './details-dialog/details-dialog.componen
 import { PaymentComponent } from './payment/payment.component';
 import { BookedConfirmationComponent } from './booked-confirmation/booked-confirmation.component';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
+import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
     DetailsDialogComponent,
     PaymentComponent,
     BookedConfirmationComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    HelpDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
   ],
   providers: [],
   entryComponents: [
-    DetailsDialogComponent
+    DetailsDialogComponent,
+    HelpDialogComponent
   ],
   bootstrap: [AppComponent]
 })

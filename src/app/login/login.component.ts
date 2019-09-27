@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     let valid = false;
     let form = this.loginForm.getRawValue();
     let usernames = ['admin', 'user', 'renter'];
-    if (form.username && form.password && usernames.includes(form.username)) {
+    if (form.username && form.password && String(usernames).toLowerCase().includes(form.username)) {
       valid = true;
       localStorage.setItem('login', 'true');
       localStorage.setItem('username', form.username);
