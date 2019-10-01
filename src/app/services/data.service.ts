@@ -88,6 +88,8 @@ export class DataService {
         modelVozila: 'RAV4',
         rentOd: '11/25/2019',
         rentDo: '12/25/2019',
+        Dizel: true,
+        Benzin: true,
         Hibrid: true,
         Terenac: true,
         Rezervisan: false,
@@ -113,7 +115,7 @@ export class DataService {
     ];
 
     let carMakers = [
-      'Alfa Romeo','Audi','BMW','Citroen','Fiat','Ford','Hyundai','Jeep','Mazda','Mercedes-Benz','Mitsubishi','Nissan','Opel','Peugeot','Renault','Seat','Škoda','Toyota','Volkswagen','Volvo','Zastava'
+      'Alfa Romeo','Audi','BMW','Citroen','Fiat','Ford','Hyundai','Jeep','Mazda','Mercedes-Benz','Mitsubishi','Nissan','Opel','Peugeot','Renault','Seat','Škoda','Toyota','Volkswagen','Volvo','Zastava','Acura','Aixam','Alpina','Asia Motors','Aston Martin','Austin','Austin Healey','Bentley','Borgward','Brilliance','Bugatti','Buick','Cadillac','Caterham','Chevrolet','Chrysler','Cobra','Corvette','Dacia','Daewoo','Daihatsu','DeTomaso','Dodge','Ferrari','GMC','Holden','Honda','Hummer','Infiniti','Isuzu','Iveco','Jaguar','Kia','Königsegg','Lada','Lamborghini','Lancia','Land Rover','Landwind','Lexus','Ligier','Lincoln','Lotus','Mahindra','Maserati','Maybach','MG','MINI','Morgan','NSU','Oldsmobile','Piaggio','Plymouth','Pontiac','Porsche','Proton','Rolls Royce','Rover','Saab','Santana','Smart','Spyker','Ssangyong','Subaru','Suzuki','Talbot','Tata','Trabant','Triumph','TVR','Wartburg','Wiesmann','Drugi','Great Wall','Tesla'
     ];
 
     if (!localStorage.getItem('cars')) {
